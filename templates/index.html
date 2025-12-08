@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lmngol</title>
+    <link href="https://fonts.cdnfonts.com/css/terminus" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/main.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
+    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="overlay" id="overlay"></div>
+
     <div class="container">
         <div class="file-tree" id="fileTree"></div>
-	<div class="file">
-	    <div class="file-data" id="file-data">
-		<div id="file-path">
-		    <h1 class="file-path-txt" id="file-path-txt"></h1>
-		    <div id="cursor"></div>
-		</div>
-		<div id="download-container">
-		    <button id="copy-button">
-			<i class="fa-regular fa-copy"></i>
-		    </button>
-		    <button id="download-button">
-			<i class="fa-solid fa-download"></i>
-		    </button>
-		</div>
-	    </div>
-	    <div class="file-content" id="fileContent"></div>
-	</div>
+        <div class="file">
+            <div class="file-data" id="file-data">
+                <div id="file-path">
+                    <h1 class="file-path-txt" id="file-path-txt"></h1>
+                    <div id="cursor"></div>
+                </div>
+                <div id="download-container">
+                    <button id="copy-button" aria-label="Copy content">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                    <button id="download-button" aria-label="Download file">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="file-content" id="fileContent"></div>
+        </div>
     </div>
     <script src="/static/js/main.js"></script>
 </body>
+
 </html>

@@ -1,169 +1,483 @@
 :root {
-    --color-bg: #000000;
-    --color-text: #0099cc;
-    --color-accent: #333399;
-    --color-highlight: #0066cc;
-    --color-secondary: #424153;
+    /* Modern Dark Theme Palette */
+    --color-bg: #0d1117;
+    --color-surface: #161b22;
+    --color-border: #30363d;
+    --color-text-main: #c9d1d9;
+    --color-text-muted: #8b949e;
+    --color-accent: #58a6ff;
+    --color-folder: #79c0ff;
+    --color-file: #c9d1d9;
+    --color-highlight: #1f6feb;
+    --color-electric-blue: #00f3ff;
+    /* Electric Blue */
+    --sidebar-width: 300px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Terminus', monospace;
 }
 
 body {
     background-color: var(--color-bg);
-    color: var(--color-text);
-    min-height: 100vh;
-    padding: 1rem;
+    color: var(--color-text-main);
+    height: 100vh;
+    overflow: hidden;
+    /* Prevent body scroll, let containers scroll */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 5px;
+    border: 2px solid var(--color-bg);
+    /* Padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #484f58;
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 0.7rem;
-    max-width: 1200px;
-    margin: 1.7rem auto;
+    display: flex;
+    height: 100vh;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
 }
 
-.ascii-art {
-    font-size: 10px;
-    line-height: 1;
-    color: var(--color-highlight);
-    margin-bottom: 1rem;
-    text-align: center;
-    white-space: pre;
-}
-
+/* --- Sidebar (File Tree) --- */
 .file-tree {
-    border: 1px solid var(--color-accent);
-    border-radius: 8px;
-    padding: 1rem;
-    height: calc(105vh - 2rem);
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
     overflow-y: auto;
+    padding: 1rem;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
 }
 
 .file-tree button {
     background: none;
     border: none;
-    color: var(--color-text);
+    color: var(--color-text-muted);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     width: 100%;
     text-align: left;
-    padding: 0.25rem;
-    border-radius: 4px;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .file-tree button:hover {
-    background-color: var(--color-secondary);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-main);
 }
 
 .file-tree .children {
-    margin-left: 1.5rem;
-}
-.file-data {
-    border: 1px solid var(--color-accent);
-    border-radius: 8px;
-    padding: 2px;
-    height: calc(10vh - 2rem);
-    overflow-y: auto;
+    margin-left: 1.2rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--color-border);
 }
 
-.file-content {
-    border: 1px solid var(--color-accent);
-    border-radius: 8px;
-    padding: 2.2rem;
-    margin-top: 0.7rem;
-    height: calc(98vh - 2rem);
-    overflow-y: auto;
-}
-.file-content p {
-    transition: color 0.3s ease;
+.folder-icon {
+    color: var(--color-folder);
+    font-weight: 500;
 }
 
-.file-content p:hover {
-    color: var(--color-highlight);
-}
-
-.file-icon::before {
-    content: "📄";
-    margin-right: 0.5rem;
+.file-icon {
+    color: var(--color-file);
 }
 
 .folder-icon::before {
-    content: "📁";
-    margin-right: 0.5rem;
+    content: "\f07b";
+    /* Folder icon from FontAwesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
 }
 
-@media (max-width: 768px) {
-    .container {
-	grid-template-columns: 1fr;
-    }
+.file-icon::before {
+    content: "\f15b";
+    /* File icon from FontAwesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 400;
 }
 
-#download-container {
-    padding: 0px;
-    text-align: right;
-}
-#download-button {
-    font-size: 18px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    color: var(--color-text);
-    padding: 7px;
-}
-#download-button:hover {
-    color: var(--color-highlight);
+
+/* --- Main Content Area --- */
+.file {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    /* Prevent flex overflow */
+    background-color: var(--color-bg);
 }
 
-.normal{
-    padding-right: 1rem;
+.file-data {
+    height: 60px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    background-color: var(--color-bg);
 }
 
-.file-path-txt{
-    font-size: 0.9rem;
-    margin: 0.5rem;
-    position: absolute;
+#file-path {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.file-path-txt {
+    font-size: 1rem;
+    color: var(--color-accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #cursor {
-    margin-left: 0.2rem;
+    margin-left: 0.5ch;
     width: 8px;
-    height: 0.8rem;
-    background-color: var(--color-highlight);
-    position: absolute;
+    height: 1.2em;
+    background-color: var(--color-accent);
     animation: blink 1s steps(1) infinite;
 }
 
 @keyframes blink {
     50% {
-	opacity: 0;
+        opacity: 0;
     }
 }
 
-#copy-container {
-    padding: 0px;
-    text-align: right;
-}
-#copy-button {
-    font-size: 18px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    color: var(--color-text);
-}
-#copy-button:hover {
-    color: var(--color-highlight);
+#download-container {
+    display: flex;
+    gap: 0.5rem;
 }
 
+#download-container button {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+#download-container button:hover {
+    color: var(--color-text-main);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.file-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.file-content p {
+    margin-bottom: 1em;
+}
+
+
+/* --- Mobile Responsiveness --- */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-main);
+    padding: 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .file-tree {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 80%;
+        max-width: 300px;
+        transform: translateX(-100%);
+        z-index: 100;
+        border-right: 1px solid var(--color-border);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .file-tree.open {
+        transform: translateX(0);
+    }
+
+    .overlay.open {
+        display: block;
+    }
+
+    .file-data {
+        padding: 0 1rem;
+        padding-right: 4rem;
+        /* Space for burger menu */
+    }
+
+    .file-content {
+        padding: 1rem;
+    }
+}
+
+
+/* --- Markdown Content Styling --- */
+.file-content h1,
+.file-content h2,
+.file-content h3,
+.file-content h4 {
+    color: var(--color-electric-blue);
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.3rem;
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+    /* Subtle glow */
+}
+
+.file-content h1 {
+    font-size: 2em;
+    border-bottom: none;
+}
+
+.file-content h2 {
+    font-size: 1.75em;
+}
+
+.file-content h3 {
+    font-size: 1.5em;
+    border-bottom: none;
+}
+
+.file-content a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.file-content a:hover {
+    text-decoration: underline;
+}
+
+.file-content ul,
+.file-content ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.file-content li {
+    margin-bottom: 0.4rem;
+}
+
+.file-content blockquote {
+    border-left: 4px solid var(--color-border);
+    padding-left: 1rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 1rem 0;
+}
+
+.file-content code {
+    background-color: rgba(110, 118, 129, 0.4);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Terminus', monospace;
+    font-size: 0.9em;
+}
+
+.file-content pre {
+    background-color: #1a1f27;
+    /* Slightly lighter than bg */
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--color-border);
+}
+
+.file-content pre code {
+    background-color: transparent;
+    padding: 0;
+    font-size: 1em;
+}
+
+/* Syntax Highlighting Blocks (pygments 'highlight' class) */
 .highlight {
-    margin: 10px;
-    padding: 10px;
-    background-color: #181823;
+    background-color: #0d1117;
+    background: #161b22;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+}
+
+.highlight table {
+    width: 100%;
+}
+
+.highlight pre {
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+/* Custom Syntax Colors using Electric Blue theme */
+.highlight .c,
+.highlight .ch,
+.highlight .cm,
+.highlight .cp,
+.highlight .cpf,
+.highlight .c1,
+.highlight .cs {
+    color: #8b949e;
+    font-style: italic;
+}
+
+/* Comments */
+.highlight .k,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt {
+    color: var(--color-electric-blue);
+    font-weight: bold;
+}
+
+/* Keywords */
+.highlight .n,
+.highlight .na,
+.highlight .nb,
+.highlight .bp {
+    color: #c9d1d9;
+}
+
+/* Names/Text */
+.highlight .nc,
+.highlight .no,
+.highlight .nd,
+.highlight .ni,
+.highlight .ne,
+.highlight .nf,
+.highlight .nl,
+.highlight .nn,
+.highlight .nt,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi {
+    color: #79c0ff;
+}
+
+/* Classes/Functions/Vars */
+.highlight .s,
+.highlight .sa,
+.highlight .sb,
+.highlight .sc,
+.highlight .dl,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .sr,
+.highlight .s1,
+.highlight .ss {
+    color: #a5d6ff;
+}
+
+/* Strings */
+.highlight .m,
+.highlight .mb,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .il,
+.highlight .mo {
+    color: #d2a8ff;
+}
+
+/* Numbers */
+.highlight .o,
+.highlight .ow {
+    color: var(--color-electric-blue);
+}
+
+/* Operators */
+.highlight .p {
+    color: #c9d1d9;
+}
+
+/* Punctuation */
+
+
+/* Markdown Tables */
+.file-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.file-content table th,
+.file-content table td {
+    border: 1px solid var(--color-border);
+    padding: 0.6rem 1rem;
+    text-align: left;
+}
+
+.file-content table th {
+    background-color: var(--color-surface);
+    font-weight: 600;
 }
