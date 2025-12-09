@@ -14,11 +14,18 @@
     --sidebar-width: 300px;
 }
 
+@font-face {
+    font-family: 'Terminus';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Terminus'), url('../fonts/terminus.woff') format('woff');
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Terminus', monospace;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 body {
@@ -331,7 +338,7 @@ body {
     background-color: rgba(110, 118, 129, 0.4);
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
-    font-family: 'Terminus', monospace;
+    font-family: 'Ubuntu Mono', monospace;
     font-size: 0.9em;
 }
 
